@@ -9,7 +9,7 @@
     <Authors>jzebedee</Authors>
     <Company>scorpdx</Company>
     <Description>CK3 token support for LibCK3</Description>
-    <PackageProjectUrl>https://github.com/scorpdx/LibCK3</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/scorpdx/LibCK3.Tokens</PackageProjectUrl>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
