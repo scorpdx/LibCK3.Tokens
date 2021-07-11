@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibCK3.Tokens.Tokens
+namespace LibCK3.Tokens
 {
     public static partial class CK3Tokens
     {
