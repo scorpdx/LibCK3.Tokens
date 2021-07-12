@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/scorpdx/LibCK3.Tokens</PackageProjectUrl>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <VersionPrefix>1.4.4</VersionPrefix>
+    <VersionPrefix>1.4.4.2</VersionPrefix>
   
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
