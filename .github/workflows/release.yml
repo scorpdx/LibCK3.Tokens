@@ -12,7 +12,7 @@ jobs:
       with:
         dotnet-version: '5.0.x' # SDK Version to use.
     - name: Pack
-      run: dotnet pack --output pkg
+      run: dotnet pack -c Release --output pkg
     - name: Publish the package to GPR
       run: dotnet nuget push pkg/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/scorpdx/index.json --skip-duplicate
     - name: Publish the package to NuGet
