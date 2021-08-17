@@ -8,5 +8,10 @@ namespace LibCK3.Tokens
         /// 1.4.4 2021-06-29 79ad Hotfix 
         /// </summary>
         public static IReadOnlyDictionary<ushort, JsonEncodedText> Tokens { get; }
+
+        /// <summary>
+        /// 1.4.4 2021-06-29 79ad Hotfix 
+        /// </summary>
+        public static IReadOnlyDictionary<string, ushort> TokenNames { get; }
     }
 }
