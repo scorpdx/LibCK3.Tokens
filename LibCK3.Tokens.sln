@@ -11,7 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{B0190EFB
 		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyTrimTest", "src\DummyTrimTest\DummyTrimTest.csproj", "{F785B0F0-D3A7-4775-BB95-891F491AC2AD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{656D75BD-3B2B-40A6-B816-6594BBA48988}"
+	ProjectSection(SolutionItems) = preProject
+		assets\1.4.4.tok.msgpack = assets\1.4.4.tok.msgpack
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +26,6 @@ Global
 		{D0E1041B-0DFC-4E37-9A06-A6838127E914}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0E1041B-0DFC-4E37-9A06-A6838127E914}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0E1041B-0DFC-4E37-9A06-A6838127E914}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F785B0F0-D3A7-4775-BB95-891F491AC2AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F785B0F0-D3A7-4775-BB95-891F491AC2AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F785B0F0-D3A7-4775-BB95-891F491AC2AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F785B0F0-D3A7-4775-BB95-891F491AC2AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
