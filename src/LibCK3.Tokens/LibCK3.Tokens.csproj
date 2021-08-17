@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 		<AssemblyName>LibCK3.Tokens</AssemblyName>
 		<RootNamespace>LibCK3.Tokens</RootNamespace>
 		<Authors>jzebedee</Authors>
@@ -10,6 +10,7 @@
 		<PackageProjectUrl>https://github.com/scorpdx/LibCK3.Tokens</PackageProjectUrl>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<IsTrimmable>true</IsTrimmable>
 		<VersionPrefix>1.4.4.2</VersionPrefix>
 
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
