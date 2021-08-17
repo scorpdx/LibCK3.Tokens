@@ -11,7 +11,7 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<IsTrimmable>true</IsTrimmable>
-		<VersionPrefix>1.4.4.2</VersionPrefix>
+		<VersionPrefix>1.4.4.3</VersionPrefix>
 
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
