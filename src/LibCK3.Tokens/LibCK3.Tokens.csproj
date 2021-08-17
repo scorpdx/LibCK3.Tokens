@@ -1,29 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>LibCK3.Tokens</AssemblyName>
-    <RootNamespace>LibCK3.Tokens</RootNamespace>
-    <Authors>jzebedee</Authors>
-    <Company>scorpdx</Company>
-    <Description>CK3 token support for LibCK3</Description>
-    <PackageProjectUrl>https://github.com/scorpdx/LibCK3.Tokens</PackageProjectUrl>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <VersionPrefix>1.4.4.2</VersionPrefix>
-  
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<AssemblyName>LibCK3.Tokens</AssemblyName>
+		<RootNamespace>LibCK3.Tokens</RootNamespace>
+		<Authors>jzebedee</Authors>
+		<Company>scorpdx</Company>
+		<Description>CK3 token support for LibCK3</Description>
+		<PackageProjectUrl>https://github.com/scorpdx/LibCK3.Tokens</PackageProjectUrl>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<VersionPrefix>1.4.4.2</VersionPrefix>
 
-  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-  </PropertyGroup>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MessagePack" Version="2.3.75" />
+		<PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.9" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Assets\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="..\..\assets\1.4.4.tok.msgpack" Link="Assets\1.4.4.tok.msgpack" />
+	</ItemGroup>
 
 </Project>
