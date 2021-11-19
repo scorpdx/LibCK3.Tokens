@@ -13,10 +13,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{B0190EFB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{656D75BD-3B2B-40A6-B816-6594BBA48988}"
 	ProjectSection(SolutionItems) = preProject
-		assets\1.4.4.tok.msgpack = assets\1.4.4.tok.msgpack
+		assets\1.0.2.tok = assets\1.0.2.tok
+		assets\1.0.3.tok = assets\1.0.3.tok
+		assets\1.1.1.tok = assets\1.1.1.tok
+		assets\1.1.2.tok = assets\1.1.2.tok
+		assets\1.1.3.tok = assets\1.1.3.tok
+		assets\1.2.1.tok = assets\1.2.1.tok
+		assets\1.2.2.tok = assets\1.2.2.tok
+		assets\1.3.0.tok = assets\1.3.0.tok
+		assets\1.3.1-beta2021-03-20.tok = assets\1.3.1-beta2021-03-20.tok
+		assets\1.3.1.tok = assets\1.3.1.tok
+		assets\1.4.0.tok = assets\1.4.0.tok
+		assets\1.4.2.tok = assets\1.4.2.tok
+		assets\1.4.4.tok = assets\1.4.4.tok
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meltwater", "src\Meltwater\Meltwater.csproj", "{7C6D5389-E919-4D78-B288-EB9FCD7841D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meltwater", "src\Meltwater\Meltwater.csproj", "{7C6D5389-E919-4D78-B288-EB9FCD7841D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
