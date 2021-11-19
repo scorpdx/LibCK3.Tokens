@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using System.Diagnostics;
 
 namespace Meltwater;
 
@@ -15,7 +16,11 @@ public class CK3TokensGenerator : ISourceGenerator
 
     private static IEnumerable<string> ToLibCK3Format(IReadOnlyDictionary<ushort, string> tokenDict)
     {
+//#if DEBUG
+//        if(!Debugger.IsAttached) Debugger.Launch();
+//#endif
         yield return "using System.Collections.Generic;";
+        yield return "using System.Collections.ObjectModel;";
         yield return "using System.Text.Json;";
         yield return $"namespace {@namespace};";
         yield return $"public static partial class {@class}";
@@ -24,7 +29,7 @@ public class CK3TokensGenerator : ISourceGenerator
         yield return "    {";
         foreach (var kvp in tokenDict)
         {
-            yield return $"        {{0x{kvp.Key:X4}, JsonEncodedText.Encode(\"{kvp.Value}\")}},";
+            yield return $"        {{ 0x{kvp.Key:X4}, JsonEncodedText.Encode(\"{kvp.Value}\") }},";
         }
         yield return "    });";
         yield return "}";
@@ -33,19 +38,18 @@ public class CK3TokensGenerator : ISourceGenerator
     private static IEnumerable<string> ToLibCK3NameFormat(IReadOnlyDictionary<ushort, string> tokenDict)
     {
         yield return "using System.Collections.Generic;";
+        yield return "using System.Collections.ObjectModel;";
         yield return "using System.Text.Json;";
-        yield return "namespace LibCK3.Tokens";
+        yield return $"namespace {@namespace};";
+        yield return $"public static partial class {@class}";
         yield return "{";
-        yield return "    public static partial class CK3Tokens";
+        yield return $"    private static ReadOnlyDictionary<string, ushort> _tokenNames = new(new Dictionary<string, ushort>";
         yield return "    {";
-        yield return $"        private static ReadOnlyDictionary<string, ushort> _tokenNames = new(new Dictionary<string, ushort>";
-        yield return "        {";
         foreach (var kvp in tokenDict)
         {
-            yield return $"            {{\"{kvp.Value}\", 0x{kvp.Key:X4}}},";
+            yield return $"        {{ \"{kvp.Value}\", 0x{kvp.Key:X4} }},";
         }
-        yield return "        });";
-        yield return "    }";
+        yield return "    });";
         yield return "}";
     }
 
@@ -102,6 +106,6 @@ public class CK3TokensGenerator : ISourceGenerator
     }
     public void Initialize(GeneratorInitializationContext context)
     {
-        _rawTokens = RawTokenProvider.ReadEmbeddedTokens().ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
+        _rawTokens = RawTokenProvider.ReadEmbeddedTokens();
     }
 }
