@@ -13,5 +13,7 @@ namespace LibCK3.Tokens
         /// 1.4.4 2021-06-29 79ad Hotfix 
         /// </summary>
         public static ReadOnlyDictionary<string, ushort> TokenNames => _tokenNames;
+
+        public static string Parse(ushort id) => ParseToken(id);
     }
 }
