@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using System.Buffers.Text;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -99,8 +98,8 @@ public class CK3TokensGenerator : ISourceGenerator
     public void Execute(GeneratorExecutionContext context)
     {
         context.AddSource("CK3Tokens.Json.cs", string.Join(Environment.NewLine, ToLibCK3Format(_rawTokens)));
-        context.AddSource("CK3Tokens.Names.cs", string.Join(Environment.NewLine, ToLibCK3NameFormat(_rawTokens)));
-        context.AddSource("CK3Tokens.Switch.cs", string.Join(Environment.NewLine, ToLibCK3TokenSwitch(_rawTokens)));
+        //context.AddSource("CK3Tokens.Names.cs", string.Join(Environment.NewLine, ToLibCK3NameFormat(_rawTokens)));
+        //context.AddSource("CK3Tokens.Switch.cs", string.Join(Environment.NewLine, ToLibCK3TokenSwitch(_rawTokens)));
     }
     public void Initialize(GeneratorInitializationContext context)
     {
