@@ -1,5 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
+using System.Buffers.Text;
 using System.Diagnostics;
+using System.Text;
 
 namespace Meltwater;
 
@@ -73,36 +75,31 @@ public class CK3TokensGenerator : ISourceGenerator
     //    yield return "}";
     //}
 
-    //private static IEnumerable<string> ToLibCK3TokenTable(IReadOnlyDictionary<ushort, string> tokens)
-    //{
-    //    const string throwFragment = @"throw new InvalidOperationException(""Token identifier is null"")";
-    //    const string throwName = "ThrowTN";
-
-    //    yield return "using System;";
-    //    yield return "using System.Collections.Generic;";
-    //    yield return "using System.Text.Json;";
-    //    yield return "namespace LibCK3.Tokens";
-    //    yield return "{";
-    //    yield return "    public static partial class CK3Tokens";
-    //    yield return "    {";
-    //    yield return $"        private static void {throwName}() => {throwFragment};";
-    //    yield return $"        public static JsonEncodedText ParseToken(ushort ck3id)";
-    //    yield return "          => ck3id switch";
-    //    yield return "          {";
-    //    foreach (var a in tokens.Where(x => !string.IsNullOrWhiteSpace(x.Value)))
-    //    {
-    //        yield return $"              {a.Key} => JsonEncodedText.Encode(\"{a.Value}\"),";
-    //    }
-    //    yield return @"              _ => throw new InvalidOperationException(""Not a valid token identifier"")";
-    //    yield return "          };";
-    //    yield return "    }";
-    //    yield return "}";
-    //}
+    private static IEnumerable<string> ToLibCK3TokenSwitch(IReadOnlyDictionary<ushort, string> tokens)
+    {
+        yield return "using System;";
+        yield return "using System.Collections.Generic;";
+        yield return "using System.Text.Json;";
+        yield return $"namespace {@namespace};";
+        yield return $"public static partial class {@class}";
+        yield return "{";
+        yield return $"    private static string ParseToken(ushort ck3id)";
+        yield return "      => ck3id switch";
+        yield return "      {";
+        foreach (var a in tokens.Where(x => !string.IsNullOrWhiteSpace(x.Value)))
+        {
+            yield return $"          {a.Key} => \"{a.Value}\",";
+        }
+        yield return @"          _ => throw new InvalidOperationException(""Not a valid token identifier"")";
+        yield return "      };";
+        yield return "}";
+    }
 
     public void Execute(GeneratorExecutionContext context)
     {
         context.AddSource("CK3Tokens.Json.cs", string.Join(Environment.NewLine, ToLibCK3Format(_rawTokens)));
         context.AddSource("CK3Tokens.Names.cs", string.Join(Environment.NewLine, ToLibCK3NameFormat(_rawTokens)));
+        context.AddSource("CK3Tokens.Switch.cs", string.Join(Environment.NewLine, ToLibCK3TokenSwitch(_rawTokens)));
     }
     public void Initialize(GeneratorInitializationContext context)
     {
