@@ -2,6 +2,7 @@
 using System.Buffers.Text;
 using System.Diagnostics;
 using System.Text;
+using System.Text.Encodings.Web;
 
 namespace Meltwater;
 
@@ -104,5 +105,23 @@ public class CK3TokensGenerator : ISourceGenerator
     public void Initialize(GeneratorInitializationContext context)
     {
         _rawTokens = RawTokenProvider.ReadEmbeddedTokens();
+        CheckTokenNames(_rawTokens.Values);
+    }
+
+    [Conditional("DEBUG")]
+    public void CheckTokenNames(IEnumerable<string> names)
+    {
+        foreach (var name in names)
+        {
+            var utf8name = Encoding.UTF8.GetBytes(name);
+
+            int idx;
+            if ((idx = NeedsEscaping(utf8name)) != -1)
+            {
+                Debug.WriteLine($"{name} needs escape at idx {idx}");
+            }
+        }
+
+        static int NeedsEscaping(ReadOnlySpan<byte> value) => JavaScriptEncoder.Default.FindFirstCharacterToEncodeUtf8(value);
     }
 }
