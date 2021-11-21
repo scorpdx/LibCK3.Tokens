@@ -11,7 +11,7 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<IsTrimmable>true</IsTrimmable>
 		<VersionPrefix>1.4.4.3</VersionPrefix>
-		<VersionSuffix>LocalTesting-3</VersionSuffix>
+		<VersionSuffix>LocalTesting-4</VersionSuffix>
 
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
