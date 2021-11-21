@@ -1,7 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace Meltwater;
 
@@ -22,6 +24,10 @@ public class CK3TokensGenerator : ISourceGenerator
         //        if(!Debugger.IsAttached) Debugger.Launch();
         //#endif
 
+        var utf8Tokens = tokenDict.Select(kvp => (kvp.Key, Value: JsonEncodedText.Encode(kvp.Value)));
+        //Span<byte> x = stackalloc byte[5] { 0x1, 0x2, 0x3, 0x4 };
+        var jet = JsonEncodedText.Encode(stackalloc byte[] { 0x1, 0x2, 0x3, 0x4, });
+
         var sb = new StringBuilder();
         a("using System.Collections.Generic;");
         a("using System.Collections.ObjectModel;");
@@ -31,9 +37,17 @@ public class CK3TokensGenerator : ISourceGenerator
         a("{");
         a($"    private static ReadOnlyDictionary<ushort, JsonEncodedText> _tokens = new(new Dictionary<ushort, JsonEncodedText>");
         a("    {");
-        foreach (var kvp in tokenDict)
+        foreach (var kvp in utf8Tokens)
         {
-            a($"        {{ 0x{kvp.Key:X4}, JsonEncodedText.Encode(\"{kvp.Value}\") }},");
+            //a($"        {{ 0x{kvp.Key:X4}, JsonEncodedText.Encode(\"{kvp.Value}\") }},");
+            sb.Append($"        {{ 0x{kvp.Key:X4}, JsonEncodedText.Encode(stackalloc byte[]{{");
+            foreach(var u8b in kvp.Value.EncodedUtf8Bytes)
+            {
+                sb.Append($"0x{u8b:X},");
+            }
+            sb
+              .Append($"}}) }},")
+              .AppendLine($"/* {kvp.Value} */");
         }
         a("    });");
         a("}");

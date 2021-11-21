@@ -19,6 +19,7 @@
 		<PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="6.0.0" GeneratePathProperty="true" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.Extensions.Primitives" Version="6.0.0" GeneratePathProperty="true" PrivateAssets="all" />
 		<PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" GeneratePathProperty="true" PrivateAssets="all" />
+		<PackageReference Include="System.Text.Json" Version="6.0.0" GeneratePathProperty="true" PrivateAssets="all" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -35,6 +36,7 @@
 			<TargetPathWithTargetPlatformMoniker Include="$(PKGMicrosoft_Extensions_FileProviders_Abstractions)\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll" IncludeRuntimeDependency="false" />
 			<TargetPathWithTargetPlatformMoniker Include="$(PKGMicrosoft_Extensions_Primitives)\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll" IncludeRuntimeDependency="false" />
 			<TargetPathWithTargetPlatformMoniker Include="$(PKGSystem_Text_Encodings_Web)\lib\netstandard2.0\System.Text.Encodings.Web.dll" IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGSystem_Text_Json)\lib\netstandard2.0\System.Text.Json.dll" IncludeRuntimeDependency="false" />
 		</ItemGroup>
 	</Target>
 
