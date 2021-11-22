@@ -20,36 +20,52 @@ public class CK3TokensGenerator : ISourceGenerator
 
     private static string ToLibCK3Format(IReadOnlyDictionary<ushort, string> tokenDict)
     {
-        //#if DEBUG
-        //        if(!Debugger.IsAttached) Debugger.Launch();
-        //#endif
+//#if DEBUG
+//        if (!Debugger.IsAttached) Debugger.Launch();
+//#endif
 
         var utf8Tokens = tokenDict.Select(kvp => (kvp.Key, Value: JsonEncodedText.Encode(kvp.Value)));
-        //Span<byte> x = stackalloc byte[5] { 0x1, 0x2, 0x3, 0x4 };
-        var jet = JsonEncodedText.Encode(stackalloc byte[] { 0x1, 0x2, 0x3, 0x4, });
+        var aggregate = utf8Tokens.SelectMany(kvp => kvp.Value.EncodedUtf8Bytes.ToArray());
 
         var sb = new StringBuilder();
         a("using System.Collections.Generic;");
         a("using System.Collections.ObjectModel;");
         a("using System.Text.Json;");
+        a("using System;");
         a($"namespace {@namespace};");
         a($"public static partial class {@class}");
         a("{");
-        a($"    private static ReadOnlyDictionary<ushort, JsonEncodedText> _tokens = new(new Dictionary<ushort, JsonEncodedText>");
+        a($"    private static ReadOnlyDictionary<ushort, JsonEncodedText> _generate_tokens()");
         a("    {");
-        foreach (var kvp in utf8Tokens)
+
+        //write superbuffer with utf8 token names
+        a($"        ReadOnlySpan<byte> t = new byte[]{{");
+        foreach (var u8b in aggregate)
         {
-            //a($"        {{ 0x{kvp.Key:X4}, JsonEncodedText.Encode(\"{kvp.Value}\") }},");
-            sb.Append($"        {{ 0x{kvp.Key:X4}, JsonEncodedText.Encode(stackalloc byte[]{{");
-            foreach(var u8b in kvp.Value.EncodedUtf8Bytes)
-            {
-                sb.Append($"0x{u8b:X},");
-            }
-            sb
-              .Append($"}}) }},")
-              .AppendLine($"/* {kvp.Value} */");
+            sb.Append($"{u8b},");
         }
-        a("    });");
+        a($"        }};");
+
+        //create dictionary with JETs from superbuffer slices
+
+        a("        return new(new Dictionary<ushort, JsonEncodedText>");
+        a("        {");
+        //= new(new Dictionary<ushort, JsonEncodedText>
+        int off = 0;
+        foreach (var (Key, Value) in utf8Tokens)
+        {
+            a($"        {{ 0x{Key:X4}, JsonEncodedText.Encode(t[{off}..{(off += Value.EncodedUtf8Bytes.Length)}]) }},/* {Value} */");
+            //sb.Append($"        {{ 0x{kvp.Key:X4}, JsonEncodedText.Encode(stackalloc byte[]{{");
+            //foreach (var u8b in kvp.Value.EncodedUtf8Bytes)
+            //{
+            //    sb.Append($"0x{u8b:X},");
+            //}
+            //sb
+            //  .Append($"}}) }},")
+            //  .AppendLine($"/* {kvp.Value} */");
+        }
+        a("        });");
+        a("    }");
         a("}");
 
         return sb.ToString();
