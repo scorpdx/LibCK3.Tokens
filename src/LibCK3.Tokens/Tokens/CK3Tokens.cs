@@ -7,6 +7,6 @@ namespace LibCK3.Tokens
         /// <summary>
         /// 1.4.4 2021-06-29 79ad Hotfix 
         /// </summary>
-        public static ReadOnlyDictionary<ushort, JsonEncodedText> Tokens => _tokens;
+        public static ReadOnlyDictionary<ushort, JsonEncodedText> Tokens { get; } = _generate_tokens();
     }
 }
