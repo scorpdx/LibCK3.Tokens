@@ -16,56 +16,28 @@ public class CK3TokensGenerator : ISourceGenerator
     private Dictionary<ushort, string> _rawTokens;
 
     private static IEnumerable<string> ToRakalyFormat(IReadOnlyDictionary<ushort, string> tokenDict)
-        => tokenDict.Select(kvp => string.Format("0x{0:X4} {1}", kvp.Key, kvp.Value));
+        => tokenDict.Select(kvp => $"0x{kvp.Key:X4} {kvp.Value}");
 
     private static string ToLibCK3Format(IReadOnlyDictionary<ushort, string> tokenDict)
     {
-//#if DEBUG
-//        if (!Debugger.IsAttached) Debugger.Launch();
-//#endif
-
-        var utf8Tokens = tokenDict.Select(kvp => (kvp.Key, Value: JsonEncodedText.Encode(kvp.Value)));
-        var aggregate = utf8Tokens.SelectMany(kvp => kvp.Value.EncodedUtf8Bytes.ToArray());
+        //#if DEBUG
+        //        if(!Debugger.IsAttached) Debugger.Launch();
+        //#endif
 
         var sb = new StringBuilder();
         a("using System.Collections.Generic;");
         a("using System.Collections.ObjectModel;");
         a("using System.Text.Json;");
-        a("using System;");
         a($"namespace {@namespace};");
         a($"public static partial class {@class}");
         a("{");
-        a($"    private static ReadOnlyDictionary<ushort, JsonEncodedText> _generate_tokens()");
+        a($"    private static ReadOnlyDictionary<ushort, JsonEncodedText> _tokens = new(new Dictionary<ushort, JsonEncodedText>");
         a("    {");
-
-        //write superbuffer with utf8 token names
-        a($"        ReadOnlySpan<byte> t = new byte[]{{");
-        foreach (var u8b in aggregate)
+        foreach (var kvp in tokenDict)
         {
-            sb.Append($"{u8b},");
+            a($"        {{ 0x{kvp.Key:X4}, JsonEncodedText.Encode(\"{kvp.Value}\") }},");
         }
-        a($"        }};");
-
-        //create dictionary with JETs from superbuffer slices
-
-        a("        return new(new Dictionary<ushort, JsonEncodedText>");
-        a("        {");
-        //= new(new Dictionary<ushort, JsonEncodedText>
-        int off = 0;
-        foreach (var (Key, Value) in utf8Tokens)
-        {
-            a($"        {{ 0x{Key:X4}, JsonEncodedText.Encode(t[{off}..{(off += Value.EncodedUtf8Bytes.Length)}]) }},/* {Value} */");
-            //sb.Append($"        {{ 0x{kvp.Key:X4}, JsonEncodedText.Encode(stackalloc byte[]{{");
-            //foreach (var u8b in kvp.Value.EncodedUtf8Bytes)
-            //{
-            //    sb.Append($"0x{u8b:X},");
-            //}
-            //sb
-            //  .Append($"}}) }},")
-            //  .AppendLine($"/* {kvp.Value} */");
-        }
-        a("        });");
-        a("    }");
+        a("    });");
         a("}");
 
         return sb.ToString();
@@ -76,7 +48,6 @@ public class CK3TokensGenerator : ISourceGenerator
     {
         yield return "using System.Collections.Generic;";
         yield return "using System.Collections.ObjectModel;";
-        yield return "using System.Text.Json;";
         yield return $"namespace {@namespace};";
         yield return $"public static partial class {@class}";
         yield return "{";
@@ -133,7 +104,7 @@ public class CK3TokensGenerator : ISourceGenerator
     public void Execute(GeneratorExecutionContext context)
     {
         context.AddSource("CK3Tokens.Json.cs", ToLibCK3Format(_rawTokens));
-        //context.AddSource("CK3Tokens.Names.cs", string.Join(Environment.NewLine, ToLibCK3NameFormat(_rawTokens)));
+        context.AddSource("CK3Tokens.Names.cs", string.Join(Environment.NewLine, ToLibCK3NameFormat(_rawTokens)));
         //context.AddSource("CK3Tokens.Switch.cs", string.Join(Environment.NewLine, ToLibCK3TokenSwitch(_rawTokens)));
     }
     public void Initialize(GeneratorInitializationContext context)
