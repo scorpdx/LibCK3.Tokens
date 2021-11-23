@@ -20,10 +20,6 @@ public class CK3TokensGenerator : ISourceGenerator
 
     private static string ToLibCK3Format(IReadOnlyDictionary<ushort, string> tokenDict)
     {
-        //#if DEBUG
-        //        if(!Debugger.IsAttached) Debugger.Launch();
-        //#endif
-
         var sb = new StringBuilder();
         a("using System.Collections.Generic;");
         a("using System.Collections.ObjectModel;");
@@ -44,21 +40,25 @@ public class CK3TokensGenerator : ISourceGenerator
         StringBuilder a(string s) => sb.AppendLine(s);
     }
 
-    private static IEnumerable<string> ToLibCK3NameFormat(IReadOnlyDictionary<ushort, string> tokenDict)
+    private static string ToLibCK3NameFormat(IReadOnlyDictionary<ushort, string> tokenDict)
     {
-        yield return "using System.Collections.Generic;";
-        yield return "using System.Collections.ObjectModel;";
-        yield return $"namespace {@namespace};";
-        yield return $"public static partial class {@class}";
-        yield return "{";
-        yield return $"    private static ReadOnlyDictionary<string, ushort> _tokenNames = new(new Dictionary<string, ushort>";
-        yield return "    {";
+        var sb = new StringBuilder();
+        a("using System.Collections.Generic;");
+        a("using System.Collections.ObjectModel;");
+        a($"namespace {@namespace};");
+        a($"public static partial class {@class}");
+        a("{");
+        a($"    private static ReadOnlyDictionary<string, ushort> _tokenNames = new(new Dictionary<string, ushort>");
+        a("    {");
         foreach (var kvp in tokenDict)
         {
-            yield return $"        {{ \"{kvp.Value}\", 0x{kvp.Key:X4} }},";
+            a($"        {{ \"{kvp.Value}\", 0x{kvp.Key:X4} }},");
         }
-        yield return "    });";
-        yield return "}";
+        a("    });");
+        a("}");
+
+        return sb.ToString();
+        StringBuilder a(string s) => sb.AppendLine(s);
     }
 
     //private static string san(string text) => char.IsDigit(text = text.Replace("_", "__").Replace(':', '_').Replace('.', '_')
@@ -104,7 +104,7 @@ public class CK3TokensGenerator : ISourceGenerator
     public void Execute(GeneratorExecutionContext context)
     {
         context.AddSource("CK3Tokens.Json.cs", ToLibCK3Format(_rawTokens));
-        context.AddSource("CK3Tokens.Names.cs", string.Join(Environment.NewLine, ToLibCK3NameFormat(_rawTokens)));
+        context.AddSource("CK3Tokens.Names.cs", ToLibCK3NameFormat(_rawTokens));
         //context.AddSource("CK3Tokens.Switch.cs", string.Join(Environment.NewLine, ToLibCK3TokenSwitch(_rawTokens)));
     }
     public void Initialize(GeneratorInitializationContext context)
